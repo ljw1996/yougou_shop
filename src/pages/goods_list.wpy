@@ -1,0 +1,51 @@
+<template>
+  <view>
+    <!-- 商品卡片区域 -->
+    <block wx:for="{{goodsList}}" wx:key="index">
+      <van-card
+        num="{{item.goods_number}}"
+        price="{{item.goods_price}}"
+        title="{{item.goods_name}}"
+        thumb="{{ item.goods_small_logo }}"
+        @tap="goGoodsDetail({{item.goods_id}})"
+      />
+      <!-- 分割线 -->
+      <view class="sep-line"></view>
+    </block>
+
+    <!-- 数据加载完毕的提示信息 isFinish判断是否渲染-->
+    <view class="over-toast" hidden="{{!isFinish}}">......人家是有底线的!......</view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import mix from '@/mixins/goods_list.js'
+
+export default class extends wepy.page {
+  config = {
+    navigationBarTitleText: '商品列表',
+    // 配置当前页面的触底距离
+    onReachBottomDistance: 100,
+    // 开启下拉刷新
+    enablePullDownRefresh: true
+  }
+
+  mixins = [mix]
+}
+</script>
+
+<style lang="less">
+.sep-line {
+  border-top: 1rpx solid #eee;
+}
+
+.over-toast {
+  font-size: 28rpx;
+  font-weight: bold;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #f80000;
+}
+</style>
